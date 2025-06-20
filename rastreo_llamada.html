@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Localización de Llamadas - Bolivia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="header">
+                <h1>🔍 Localización de Llamada</h1>
+                <p>Sistema de Rastreo Avanzado</p>
+            </div>
+
+            <div class="input-group">
+                <label for="phoneNumber">Número a Rastrear</label>
+                <input type="text" id="phoneNumber" class="input-field" placeholder="+591 XXXXXXXX" maxlength="12">
+            </div>
+
+            <div class="input-group">
+                <label>Operadora</label>
+                <select id="operadora" class="input-field">
+                    <option value="auto">🔄 Detectar Automáticamente</option>
+                    <option value="tigo">📱 Tigo</option>
+                    <option value="viva">📱 Viva</option>
+                    <option value="entel">📱 Entel</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="iniciarRastreo()">🎯 Iniciar Rastreo</button>
+
+            <div class="section-header">
+                <h3>📊 Configuración Avanzada</h3>
+            </div>
+
+            <div class="input-group">
+                <label>Precisión GPS</label>
+                <select id="precision" class="input-field">
+                    <option value="alta">🎯 Alta (±10m)</option>
+                    <option value="media">📍 Media (±50m)</option>
+                    <option value="baja">📌 Baja (±100m)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Tipo de Búsqueda</label>
+                <select id="tipoBusqueda" class="input-field">
+                    <option value="realtime">⚡ Tiempo Real</option>
+                    <option value="historico">📚 Histórico</option>
+                    <option value="predictivo">🔮 Predictivo</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Radio de Búsqueda</label>
+                <div class="slider-container">
+                    <input type="range" id="radio" min="1" max="50" value="10" class="slider">
+                    <span id="radioValue" class="slider-value">10 km</span>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h3>🏢 Torres Base Activas</h3>
+            </div>
+
+            <div class="towers-grid">
+                <div class="tower-item tigo">
+                    <div class="tower-icon">T</div>
+                    <div class="tower-info">
+                        <div class="tower-count">127</div>
+                        <div class="tower-label">Torres Tigo</div>
+                    </div>
+                </div>
+                <div class="tower-item viva">
+                    <div class="tower-icon">V</div>
+                    <div class="tower-info">
+                        <div class="tower-count">94</div>
+                        <div class="tower-label">Torres Viva</div>
+                    </div>
+                </div>
+                <div class="tower-item entel">
+                    <div class="tower-icon">E</div>
+                    <div class="tower-info">
+                        <div class="tower-count">156</div>
+                        <div class="tower-label">Torres Entel</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h3>⚡ Estado del Sistema</h3>
+            </div>
+
+            <div class="system-status">
+                <div class="status-item">
+                    <span class="status-label">CPU:</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 87%"></div>
+                    </div>
+                    <span class="status-value">87%</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">RAM:</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 64%"></div>
+                    </div>
+                    <span class="status-value">64%</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Red:</span>
+                    <span class="status-value optimal">Óptima</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Satélites:</span>
+                    <span class="status-value optimal">12/12</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Última Act:</span>
+                    <span class="status-value" id="lastUpdate">Ahora</span>
+                </div>
+            </div>
+
+            <div class="call-history">
+                <h3>📞 Historial de Llamadas</h3>
+                <div id="historyList"></div>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <button class="btn" onclick="clearMap()" style="background: linear-gradient(45deg, #ff6b6b, #ff5252);">🗑️ Limpiar Sistema</button>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <div id="map"></div>
+            <div class="map-overlay">
+                <div><span class="status-indicator status-active"></span>Sistema Online</div>
+                <div>🌐 Cobertura: Nacional</div>
+                <div>📍 Precisión: ±50m</div>
+                <div>⏱️ Tiempo Real</div>
+            </div>
+            <div class="triangulation-info" id="triangulationInfo" style="display: none;">
+                <h4>🔺 Triangulación Activa</h4>
+                <div id="triangulationDetails"></div>
+                <div class="distance-info" id="distanceInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
